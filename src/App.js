@@ -1,9 +1,12 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 function App() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['todos'],
+    queryKey: ['posts'],
     queryFn: () =>
-      fetch('https://jsonplaceholder.typicode.com/todos').then((res) =>
+      fetch('https://jsonplaceholder.typicode.com/posts').then((res) =>
         res.json()
       ),
   });
@@ -15,6 +18,9 @@ function App() {
         body: JSON.stringify(newPost),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then((res) => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
   });
 
   if (isLoading) return <div>Loading</div>;
