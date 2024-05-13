@@ -9,7 +9,8 @@ function App() {
       fetch('https://jsonplaceholder.typicode.com/posts').then((res) =>
         res.json()
       ),
-      staleTime: 4000,
+      // staleTime: 4000,
+      // refetchInterval: 3000,
   });
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
