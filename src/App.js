@@ -19,6 +19,9 @@ function App() {
     
   });
 
+  // parallel queries are different queries can run at thesame time in parallel.
+  //you only need to name it function differently. 
+
   const { mutate, isPending, isError, isSuccess } = useMutation({
     mutationFn: (newPost) =>
       fetch('https://jsonplaceholder.typicode.com/posts', {
