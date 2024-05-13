@@ -11,7 +11,8 @@ function App() {
       ),
       // gcTime: 6000,
       // staleTime: 4000,
-      // refetchInterval: 3000,
+      refetchInterval: 3000,
+      refetchOnWindowFocus: false
 
       //  dependent queries (assuming we have another query that  this query depends on a
       // data from it, when we set  enabled, the query only runs when the value is true.
