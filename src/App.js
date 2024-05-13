@@ -6,19 +6,22 @@ function App() {
   const { data, isLoading, error } = useQuery({
     queryKey: ['posts'],
     queryFn: () =>
-      fetch('https://jsonplaceholder.typicode.com/posts').then((res) =>
+      fetch('https://jsonplaceholder.typicodesss.com/posts').then((res) =>
         res.json()
       ),
       // gcTime: 6000,
       // staleTime: 4000,
-      refetchInterval: 3000,
-      refetchOnWindowFocus: false
+      // refetchInterval: 3000,
+      refetchOnWindowFocus: false,
+      retry: 5,
 
       //  dependent queries (assuming we have another query that  this query depends on a
       // data from it, when we set  enabled, the query only runs when the value is true.
       // enabled: !!id
     
   });
+  // console.log(error)
+  console.log(data)
 
   // parallel queries are different queries can run at thesame time in parallel.
   //you only need to name it function differently. 
@@ -41,8 +44,8 @@ function App() {
     }
   });
 
-  if (isLoading) return <div>Loading</div>;
   if (error || isError) return <div>An error occured</div>;
+  if (isLoading) return <div>Loading</div>;
   return (
     <div>
       {isPending && <p>yor post is updating!!</p>}
@@ -58,7 +61,7 @@ function App() {
       >
         New post
       </button>
-      {data.map((todo, idx) => (
+      {data?.map((todo, idx) => (
         <div key={idx}>
           <h4>{todo.id}</h4>
           <h1>{todo.title}</h1>
