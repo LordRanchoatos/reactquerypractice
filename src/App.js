@@ -9,6 +9,7 @@ function App() {
       fetch('https://jsonplaceholder.typicode.com/posts').then((res) =>
         res.json()
       ),
+      staleTime: 4000,
   });
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
@@ -18,9 +19,15 @@ function App() {
         body: JSON.stringify(newPost),
         headers: { 'Content-type': 'application/json; charset=UTF-8' },
       }).then((res) => res.json()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-    },
+      // making a refetch to confirm data
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: ['posts'] });
+    // },
+
+    // editing the cache data directly.
+    onSuccess: (newPost) => {
+      queryClient.setQueriesData(['posts'], (oldPosts) => [...oldPosts, newPost])
+    }
   });
 
   if (isLoading) return <div>Loading</div>;
@@ -44,6 +51,7 @@ function App() {
         <div key={idx}>
           <h4>{todo.id}</h4>
           <h1>{todo.title}</h1>
+          <p>{todo.body}</p>
         </div>
       ))}
     </div>
